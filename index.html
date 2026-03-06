@@ -499,29 +499,32 @@
     appendMessage("user", text);
     history.push({ role: "user", parts: [{ text }] });
     setLoading(true);
-
+    
     try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbxWp1Xd7UUG8ThSj2pzUXRCDOnyLFKkAXGv2kKhfMoQal06VVZP5Q5-sGZ0ugdSVCDing/exec", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ history })
-      });
+    const res = await fetch("https://script.google.com/macros/s/AKfycbxWp1Xd7UUG8ThSj2pzUXRCDOnyLFKkAXGv2kKhfMoQal06VVZP5Q5-sGZ0ugdSVCDing/exec", {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify({ history })
+    });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
 
-      const reply = data.reply || "I'm sorry, I didn't get a response. Please try again.";
-      history.push({ role: "model", parts: [{ text: reply }] });
-      appendMessage("bot", reply);
+    const reply = data.reply || "I'm sorry, I didn't get a response. Please try again.";
+    history.push({ role: "model", parts: [{ text: reply }] });
+    appendMessage("bot", reply);
 
-    } catch (err) {
-      appendMessage("bot", "I'm having a little trouble connecting right now. Please check your internet and try again. 💚");
-      console.error(err);
-    } finally {
-      setLoading(false);
+    }   
+    catch (err) 
+    {
+    appendMessage("bot", "I'm having a little trouble connecting right now. Please check your internet and try again. 💚");
+    console.error(err);
+    } 
+    finally 
+    {
+    setLoading(false);
     }
   }
 </script>
-
 </body>
 </html>
